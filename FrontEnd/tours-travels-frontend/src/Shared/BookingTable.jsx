@@ -3,25 +3,21 @@ import axios from 'axios';
 import { BASE_URL } from '../utils/config';
 import { useNavigate } from 'react-router-dom';
 import { FaTrash } from "react-icons/fa";
+import './booking-table.css';
 
-const BookingTable = ({ bookings }) => {
-  const [localBookings, setLocalBookings] = useState(bookings); // Local state to store bookings
+const BookingTable = ({ bookings = [] }) => {
+  const [localBookings, setLocalBookings] = useState(bookings);
   const navigate = useNavigate();
-
-  // Get user data from localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
-  console.log("User Data from LocalStorage:", user);  // Log user data for debugging
-
-  const isAdmin = user?.role === "admin"; // Check if user is an admin
-  console.log("Is Admin:", isAdmin);  // Log if user is admin or not
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const isAdmin = user?.role === "admin";
 
   useEffect(() => {
-    setLocalBookings(bookings);
+    setLocalBookings(bookings || []);
   }, [bookings]);
 
   const handleDelete = async (_id) => {
     try {
-      const cleanedBaseUrl = BASE_URL.replace(/\/+$/, "");  // Clean up BASE_URL to avoid double slashes
+      const cleanedBaseUrl = BASE_URL.replace(/\/+$/, "");
       const response = await axios.delete(`${cleanedBaseUrl}/booking/${_id}`);
       
       if (response.data.success) {
@@ -33,75 +29,68 @@ const BookingTable = ({ bookings }) => {
   };
 
   const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Debugging: Log all bookings before filtering
-  console.log("All Bookings:", localBookings);
-
-  // Filter bookings based on user role
   const filteredBookings = isAdmin
     ? localBookings
-    : localBookings.filter(booking => booking.userId === user.id);  // Use `user.id` instead of `user._id`
-
-  // Debugging: Log filtered bookings
-  console.log("Filtered Bookings:", filteredBookings);  // Log the filtered bookings for debugging
+    : localBookings.filter(booking => booking.userId === user.id);
 
   return (
-    <table className="table table-striped table-hover align-middle">
-      <thead className="table-dark">
-        <tr>
-          <th scope="col">UserName</th>
-          <th scope="col">Name</th>
-          <th scope="col">Title</th>
-          <th scope="col">Group Size</th>
-          <th scope="col">Phone No</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {filteredBookings.map(({ _id, userId,username, fullName, userEmail, tourName, groupSize, phone }) => (
-          <tr onClick={handleScrollToTop} key={_id}>
-            <td>
-              <p className="fw-bold mb-1">{username}</p> {/* Show the username of the current user or the admin */}
-            </td>
-            <td>
-              <div className="d-flex align-items-center">
-                <div className="ms-3">
-                  <p className="fw-bold mb-1">{fullName}</p>
-                  <p className="text-muted mb-0">{userEmail}</p>
-                </div>
-              </div>
-            </td>
-            <td>
-              <span className="badge bg-success">{tourName}</span>
-            </td>
-            <td>{groupSize}</td>
-            <td>{phone}</td>
-            <td>
-              <button
-                className="btn btn-link btn-sm text-danger"
-                onClick={() => {
-                  handleDelete(_id);
-                  setTimeout(() => {
-                    navigate("/");
-                  }, 1000);
-                }}
-              >
-                <FaTrash /> {/* Display the trash icon for delete */}
-              </button>
-            </td>
+    <div className="booking-table__wrapper">
+      <table className="booking-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Full Name</th>
+            <th>Tour</th>
+            <th>Group Size</th>
+            <th>Phone</th>
+            <th>Actions</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {filteredBookings.map(({ _id, username, fullName, userEmail, tourName, groupSize, phone }) => (
+            <tr key={_id} onClick={handleScrollToTop}>
+              <td>
+                <span className="username">{username}</span>
+              </td>
+              <td>
+                <div className="user-info">
+                  <p className="full-name">{fullName}</p>
+                  <p className="email">{userEmail}</p>
+                </div>
+              </td>
+              <td>
+                <span className="tour-badge">{tourName}</span>
+              </td>
+              <td>
+                <span className="group-size">{groupSize}</span>
+              </td>
+              <td>
+                <span className="phone">{phone}</span>
+              </td>
+              <td>
+                <button
+                  className="delete-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(_id);
+                    setTimeout(() => navigate("/"), 1000);
+                  }}
+                >
+                  <FaTrash />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

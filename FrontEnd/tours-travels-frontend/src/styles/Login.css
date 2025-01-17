@@ -79,7 +79,7 @@
 
 .auth__page .form__group {
   position: relative;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem !important;
 }
 
 .auth__page .form__group input {

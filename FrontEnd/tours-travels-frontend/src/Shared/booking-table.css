@@ -1,0 +1,218 @@
+/* Table Container */
+.booking-table__wrapper {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.05),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+  position: relative;
+  border: 1px solid rgba(var(--secondary-color-rgb), 0.1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Table Structure */
+.booking-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+}
+
+/* Header Styles */
+.booking-table thead {
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  color: #fff;
+  position: relative;
+}
+
+.booking-table th {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Row Styles */
+.booking-table tbody tr {
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.booking-table tbody tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  background: rgba(var(--secondary-color-rgb), 0.02);
+}
+
+.booking-table td {
+  padding: 0.8rem 1rem;
+  vertical-align: middle;
+}
+
+/* Username Column */
+.username {
+  font-weight: 600;
+  color: var(--heading-color);
+  position: relative;
+  padding-left: 20px;
+}
+
+.username::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: var(--secondary-color);
+  border-radius: 50%;
+}
+
+/* User Info Column */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.full-name {
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0;
+}
+
+.email {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Tour Badge */
+.tour-badge {
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-block;
+  box-shadow: 0 3px 10px rgba(var(--secondary-color-rgb), 0.2);
+  transition: all 0.3s ease;
+}
+
+.tour-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(var(--secondary-color-rgb), 0.3);
+}
+
+/* Group Size */
+.group-size {
+  font-weight: 500;
+  color: var(--heading-color);
+  background: rgba(var(--secondary-color-rgb), 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.group-size::before {
+  content: '👥';
+  font-size: 0.9rem;
+}
+
+/* Phone Number */
+.phone {
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.phone::before {
+  content: '📞';
+  font-size: 0.9rem;
+}
+
+/* Delete Button */
+.delete-btn {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  cursor: pointer;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.delete-btn:hover {
+  background: rgba(255, 107, 107, 0.1);
+  transform: scale(1.1);
+}
+
+/* Empty State */
+.booking-table tbody:empty::after {
+  content: 'No bookings found';
+  display: block;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-color);
+  font-style: italic;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .booking-table {
+    font-size: 0.95rem;
+  }
+
+  .booking-table th,
+  .booking-table td {
+    padding: 0.7rem 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-table__wrapper {
+    overflow-x: auto;
+    border-radius: 15px;
+  }
+
+  .booking-table {
+    min-width: 700px;
+  }
+
+  .tour-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .booking-table th {
+    font-size: 0.85rem;
+  }
+
+  .email {
+    font-size: 0.8rem;
+  }
+} 

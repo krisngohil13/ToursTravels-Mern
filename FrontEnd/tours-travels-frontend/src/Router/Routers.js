@@ -16,9 +16,6 @@ import Blogs from '../Pages/Blogs';
 import Booked from '../Pages/Booked';
 import BlogDetails from '../Pages/BlogDetails';
 import ScrollToTop from '../utils/scrolltoTop';
-import Admin from '../Components/Admin/Admin';
-import AdminMain from '../Components/Admin/adminMain';
-import EditTour from '../Shared/EditTour';
 
 const Router = () => {
   return (
@@ -39,9 +36,6 @@ const Router = () => {
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/blogs/:id" element={<BlogDetails />} />
       <Route path='/booked' element={<Booked/>}/>
-      <Route path='/Admin' element={<Admin/>}/>
-      <Route path='/admiMain' element={<AdminMain/>}/>
-      <Route path='/toursedit/:id/:title/:city/:price' element={<EditTour/>}/>
 
       <Route path="*" element={<PageNotFound />} />
     </Routes></>
