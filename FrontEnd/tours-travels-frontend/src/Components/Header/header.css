@@ -1,0 +1,808 @@
+/* Header Container */
+.header {
+  width: 90% !important;
+  margin: 20px auto !important;
+  padding: 1rem 2rem !important;
+  background: linear-gradient(135deg, rgba(75, 0, 130, 0.95), rgba(138, 43, 226, 0.9)) !important;
+  backdrop-filter: blur(8px) !important;
+  border-radius: 15px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.4s ease !important;
+  position: sticky !important;
+  top: 20px !important;
+  z-index: 999 !important;
+}
+
+/* Sticky Header Animation */
+.sticky__header {
+  width: 95%;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, rgba(75, 0, 130, 0.98), rgba(138, 43, 226, 0.95));
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+  animation: slideDown 0.5s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Navigation Wrapper */
+.nav__wrapper {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0.5rem 0 !important;
+}
+
+/* Logo Styles */
+.logo {
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.logo-text {
+  font-size: 1.8rem !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.3rem !important;
+}
+
+.tours, .and, .travels {
+  display: inline-block;
+  position: relative;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tours {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.and {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 2rem;
+  margin: 0 0.2rem;
+  color: #d8bfd8;
+  animation: fadeIn 0.5s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.travels {
+  animation: slideInRight 0.5s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+/* Hover Animations */
+.logo:hover .tours {
+  animation: glow 1s ease-in-out;
+}
+
+.logo:hover .and {
+  animation: swing 1s ease-in-out;
+}
+
+.logo:hover .travels {
+  animation: glow 1s ease-in-out;
+}
+
+/* New Animations */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    color: #d8bfd8;
+    text-shadow: 0 0 10px #d8bfd8;
+  }
+}
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: rotate(5deg); }
+  80% { transform: rotate(-5deg); }
+}
+
+/* Navigation Menu */
+.navigation {
+  transition: all 0.3s ease;
+}
+
+.menu {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2.5rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.nav__item {
+  position: relative;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: menuSlideDown 0.5s ease forwards;
+}
+
+.nav__item:nth-child(1) { animation-delay: 0.1s; }
+.nav__item:nth-child(2) { animation-delay: 0.2s; }
+.nav__item:nth-child(3) { animation-delay: 0.3s; }
+.nav__item:nth-child(4) { animation-delay: 0.4s; }
+.nav__item:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav__item a {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect for Nav Items */
+.nav__item a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s ease;
+}
+
+.nav__item a:hover::after {
+  width: 100%;
+}
+
+.nav__item a:hover {
+  color: #d8bfd8;
+  transform: translateY(-2px);
+}
+
+.active__link {
+  color: #d8bfd8 !important;
+  position: relative;
+}
+
+.active__link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #d8bfd8;
+}
+
+/* Button Styles */
+.nav__btns {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.btn {
+  padding: 0.6rem 1.8rem !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  cursor: pointer !important;
+  border: none !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(5px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 5px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  min-width: 120px !important;
+  transition: all 0.3s ease !important;
+  color: #fff !important;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Icon and Text Styles */
+.btn__icon {
+  font-size: 1.2rem;
+}
+
+.btn__text {
+  margin: 0;
+}
+
+/* Username Display */
+.logged__in_h5 {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.6rem 1.5rem;
+  border-radius: 5px;
+  margin: 0;
+  font-size: 0.95rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+}
+
+.user__icon {
+  font-size: 1.2rem;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 992px) {
+  .nav__btns {
+    margin-top: 2rem;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .btn, .logged__in_h5 {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nav__btns {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn, .logged__in_h5 {
+    min-width: 45px;
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .btn__text, .username__text {
+    display: none;
+  }
+
+  .btn__icon, .user__icon {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  /* Hover effects for mobile */
+  .btn:hover, .logged__in_h5:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Mobile Menu Styles */
+@media screen and (max-width: 992px) {
+  .header {
+    width: 95%;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(75, 0, 130, 0.95);
+    display: none;
+    z-index: 999;
+    padding-top: 80px;
+  }
+
+  .menu {
+    flex-direction: column;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .nav__item {
+    padding: 1rem 0;
+  }
+
+  .mobile__menu {
+    display: block;
+  }
+
+  .show__menu {
+    display: block;
+  }
+
+  /* Button styles for mobile menu */
+  .nav__btns {
+    position: fixed;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .btn, .logged__in_h5 {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .nav__btns {
+    gap: 0.8rem;
+  }
+
+  .btn, .logged__in_h5 {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn__text, .username__text {
+    display: none;
+  }
+
+  .btn__icon, .user__icon {
+    font-size: 1.3rem;
+    margin: 0;
+    display: block;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .and {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .btn, .logged__in_h5 {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .btn__icon, .user__icon {
+    font-size: 1.2rem;
+  }
+
+  .mobile__menu {
+    font-size: 1.3rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Button Animation */
+@keyframes buttonGlow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(216, 191, 216, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(216, 191, 216, 0.5);
+  }
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 992px) {
+  .nav__btns {
+    gap: 1rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+    min-width: 90px;
+  }
+
+  .logged__in_h5 {
+    padding: 0.6rem 1.3rem !important;
+    font-size: 0.9rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nav__btns {
+    gap: 0.8rem;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    min-width: 80px;
+    flex: 1;
+    max-width: 120px;
+  }
+
+  .logged__in_h5 {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .nav__btns {
+    flex-direction: column;
+    gap: 0.6rem;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: none;
+    padding: 0.5rem 1rem;
+  }
+
+  .logged__in_h5 {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Mobile Menu Styles */
+@media screen and (max-width: 992px) {
+  .navigation .nav__btns {
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+
+  .show__menu .nav__btns {
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+    animation-delay: 0.3s;
+  }
+}
+
+/* Animation for mobile menu buttons */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+    justify-content: center;
+  }
+
+  .btn__text {
+    display: none;
+  }
+
+  .btn__icon {
+    display: block;
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .logged__in_h5 {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.85rem;
+  }
+
+  .username__text {
+    display: none;
+  }
+
+  .user__icon {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .btn {
+    padding: 0.5rem;
+    width: auto;
+    min-width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav__btns {
+    flex-direction: row;
+    gap: 0.8rem;
+  }
+
+  .logged__in_h5 {
+    padding: 0.5rem !important;
+    width: auto;
+    min-width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Update hover effects for icons */
+.btn:hover .btn__icon {
+  transform: scale(1.1);
+}
+
+.logged__in_h5:hover .user__icon {
+  transform: scale(1.1);
+}
+
+/* Mobile Menu Icon */
+.mobile__menu {
+  background: none;
+  border: none;
+  color: #fff;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobile__menu svg {
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.mobile__menu:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.mobile__menu:hover svg {
+  transform: scale(0.9);
+}
+
+/* Active/Pressed State */
+.mobile__menu:active {
+  transform: scale(0.95);
+}
+
+/* Optional: Add a pulse animation when the menu is open */
+@keyframes menuPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.mobile__menu.menu-open {
+  background: rgba(255, 255, 255, 0.2);
+  animation: menuPulse 1.5s infinite;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 992px) {
+  .header {
+    width: 95%;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(75, 0, 130, 0.95);
+    display: none;
+    z-index: 999;
+    padding-top: 80px;
+  }
+
+  .menu {
+    flex-direction: column;
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .nav__item {
+    padding: 1rem 0;
+  }
+
+  .mobile__menu {
+    display: block;
+  }
+
+  .show__menu {
+    display: block;
+  }
+
+  .nav__btns {
+    position: fixed;
+    bottom: 2rem;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .btn, .logged__in_h5 {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .nav__btns {
+    gap: 0.8rem;
+  }
+
+  .btn, .logged__in_h5 {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn__text, .username__text {
+    display: none;
+  }
+
+  .btn__icon, .user__icon {
+    font-size: 1.3rem;
+    margin: 0;
+    display: block;
+  }
+
+  .logo-text {
+    font-size: 1.3rem;
+  }
+
+  .and {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .btn, .logged__in_h5 {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .btn__icon, .user__icon {
+    font-size: 1.2rem;
+  }
+
+  .mobile__menu {
+    font-size: 1.3rem;
+  }
+}

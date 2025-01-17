@@ -1,0 +1,228 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 40px;
+    opacity: 1;
+  }
+}
+
+@keyframes glowLine {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 40px;
+    opacity: 1;
+  }
+}
+
+.common__section {
+  position: relative;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(
+    rgba(77, 43, 140, 0.85),
+    rgba(77, 43, 140, 0.85)
+  ),
+  url("../assets/images/tour.jpg") no-repeat center center;
+  background-size: cover;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Animated background pattern */
+.common__section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(45deg, 
+      rgba(255, 255, 255, 0.1) 25%, 
+      transparent 25%, 
+      transparent 50%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      rgba(255, 255, 255, 0.1) 75%, 
+      transparent 75%, 
+      transparent
+    );
+  background-size: 100px 100px;
+  animation: moveBackground 15s linear infinite;
+  opacity: 0;
+  animation-delay: 0.5s;
+}
+
+/* Glowing overlay */
+.common__section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 70%
+  );
+  animation: pulse 4s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+.common__section h1 {
+  font-size: 2.8rem;
+  color: #fff;
+  font-weight: 800;
+  position: relative;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.8s ease-out;
+}
+
+/* Decorative elements */
+.common__section h1::before,
+.common__section h1::after {
+  content: '';
+  position: absolute;
+  height: 3px;
+  background: #fff;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: 
+    slideIn 0.8s ease-out forwards,
+    glowLine 2s ease-in-out 0.8s infinite;
+}
+
+.common__section h1::before {
+  left: -50px;
+  transform-origin: left;
+}
+
+.common__section h1::after {
+  right: -50px;
+  transform-origin: right;
+}
+
+/* Animations */
+@keyframes moveBackground {
+  0% {
+    background-position: 0 0;
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    background-position: 100px 100px;
+    opacity: 0.2;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .common__section h1 {
+    font-size: 2.5rem;
+  }
+
+  .common__section h1::before,
+  .common__section h1::after {
+    width: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .common__section {
+    height: 130px;
+  }
+
+  .common__section h1 {
+    font-size: 2.2rem;
+  }
+
+  .common__section h1::before,
+  .common__section h1::after {
+    width: 25px;
+    left: -35px;
+  }
+
+  .common__section h1::after {
+    right: -35px;
+  }
+}
+
+@media (max-width: 576px) {
+  .common__section {
+    height: 120px;
+  }
+
+  .common__section h1 {
+    font-size: 1.8rem;
+  }
+
+  .common__section h1::before,
+  .common__section h1::after {
+    display: none;
+  }
+}

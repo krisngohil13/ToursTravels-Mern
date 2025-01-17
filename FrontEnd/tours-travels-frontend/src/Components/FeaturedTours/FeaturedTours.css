@@ -1,0 +1,101 @@
+.featured__tours {
+  padding: 2rem 0;
+}
+
+.featured__tour-wrapper {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.featured__tour-col {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.featured__tour-col:nth-child(1) { animation-delay: 0.1s; }
+.featured__tour-col:nth-child(2) { animation-delay: 0.2s; }
+.featured__tour-col:nth-child(3) { animation-delay: 0.3s; }
+.featured__tour-col:nth-child(4) { animation-delay: 0.4s; }
+
+/* Loading State */
+.featured__tours h4 {
+  color: var(--heading-color);
+  font-size: 1.2rem;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(128, 0, 255, 0.05);
+  border-radius: 15px;
+  margin: 1rem 0;
+}
+
+/* Error State */
+.featured__tours h4:not(:only-child) {
+  color: #ff3366;
+  background: rgba(255, 51, 102, 0.05);
+}
+
+/* Grid Layout */
+.featured__tours .row {
+  margin: 0 -0.75rem;
+}
+
+.featured__tour-col {
+  padding: 0 0.75rem;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover Effects */
+.featured__tour-wrapper:hover {
+  z-index: 1;
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+  .featured__tours {
+    padding: 1.5rem 0;
+  }
+}
+
+@media (max-width: 992px) {
+  .featured__tour-col {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured__tours {
+    padding: 1rem 0;
+  }
+
+  .featured__tours h4 {
+    font-size: 1.1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .featured__tours {
+    padding: 0.5rem 0;
+  }
+
+  .featured__tour-col {
+    margin-bottom: 0.75rem;
+  }
+
+  .featured__tours h4 {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+} 
