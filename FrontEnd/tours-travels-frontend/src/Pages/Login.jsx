@@ -105,7 +105,7 @@ const Login = () => {
   };
 
   return (
-    <section>
+    <section className="auth__page">
       <Container>
         <Row>
           <Col lg="8" className="m-auto">

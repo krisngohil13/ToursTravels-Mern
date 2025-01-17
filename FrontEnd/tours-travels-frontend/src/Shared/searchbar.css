@@ -30,7 +30,8 @@
   padding: 0.3rem;
 }
 
-.form__group {
+/* Make form group styles specific to search bar */
+.search__bar .form__group {
   flex: 1;
   background: rgba(255, 255, 255, 0.2);
   padding: 0.5rem 1rem;
@@ -42,11 +43,11 @@
   justify-content: center;
 }
 
-.form__group:hover {
+.search__bar .form__group:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-.form__group:not(:last-child)::after {
+.search__bar .form__group:not(:last-child)::after {
   content: '';
   position: absolute;
   right: -0.25rem;
@@ -56,7 +57,7 @@
   background: rgba(0, 0, 0, 0.1);
 }
 
-.form__group h6 {
+.search__bar .form__group h6 {
   margin-bottom: 0.3rem;
   color: var(--heading-color);
   font-size: 0.7rem;
@@ -65,24 +66,24 @@
   letter-spacing: 0.5px;
 }
 
-.input-wrapper {
+.search__bar .input-wrapper {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   height: 25px;
 }
 
-.form__group span {
+.search__bar .form__group span {
   font-size: 1.1rem;
   color: var(--heading-color);
   transition: all 0.3s ease;
 }
 
-.form__group:hover span {
+.search__bar .form__group:hover span {
   transform: scale(1.1);
 }
 
-.form__group input {
+.search__bar .form__group input {
   border: none;
   width: 100%;
   height: 100%;
@@ -92,15 +93,15 @@
   font-weight: 500;
 }
 
-.form__group input::placeholder {
+.search__bar .form__group input::placeholder {
   color: rgba(0, 0, 0, 0.6);
 }
 
-.form__group input:focus {
+.search__bar .form__group input:focus {
   outline: none;
 }
 
-.search__icon {
+.search__bar .search__icon {
   align-self: center;
   padding: 0.8rem 1.8rem;
   height: 42px;
@@ -120,18 +121,19 @@
   -webkit-backdrop-filter: blur(4px);
 }
 
-.search__icon:hover {
+/* Rest of the styles remain the same but with .search__bar prefix */
+.search__bar .search__icon:hover {
   background: var(--primary-color);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.search__icon i {
+.search__bar .search__icon i {
   font-size: 1.1rem;
   transition: transform 0.3s ease;
 }
 
-.search__icon:hover i {
+.search__bar .search__icon:hover i {
   transform: rotate(10deg);
 }
 
@@ -148,7 +150,7 @@
     bottom: 10%;
   }
 
-  .form__group {
+  .search__bar .form__group {
     padding: 0.5rem 0.8rem;
   }
 }
@@ -165,18 +167,18 @@
     gap: 0.4rem;
   }
 
-  .form__group {
+  .search__bar .form__group {
     width: 100%;
     padding: 0.6rem;
     min-height: 50px;
     border-bottom: 1px solid rgba(53, 99, 250, 0.15);
   }
 
-  .form__group:not(:last-child)::after {
+  .search__bar .form__group:not(:last-child)::after {
     display: none;
   }
 
-  .search__icon {
+  .search__bar .search__icon {
     width: 100%;
     margin: 0.2rem 0;
   }
@@ -189,20 +191,20 @@
     bottom: 5%;
   }
 
-  .form__group {
+  .search__bar .form__group {
     min-height: 45px;
   }
 }
 
 /* Remove number input spinners */
-input[type="number"] {
+.search__bar input[type="number"] {
   -webkit-appearance: textfield;
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+.search__bar input[type="number"]::-webkit-inner-spin-button,
+.search__bar input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }

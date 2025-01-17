@@ -126,61 +126,51 @@
   color: var(--heading-color);
 }
 
-.Featured__blogs{
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    padding: 2rem!important;
-    border-radius: 0.5rem;
-    border: 1px solid rgb(229, 231, 235);
-    background-color:#fff;
-    box-shadow: rgba(46, 57, 78,.1)!
+.Featured__blogs {
+  padding: 2rem;
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(128, 0, 255, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 80px;
 }
 
+.Featured__blogs .title {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.Featured__blogs .title h5 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--heading-color);
+}
 
 @media only screen and (max-width: 992px) {
-
-  .Featured__blogs{
-    margin-top: 1rem;
+  .Featured__blogs {
+    margin-top: 3rem;
+    position: static;
   }
-
 }
+
 @media only screen and (max-width: 768px) {
-  .blog__extra-details {
-    flex-wrap: wrap;
-    row-gap: 1rem;
+  .Featured__blogs {
+    padding: 1.5rem;
   }
-
-  .blog__extra-details span {
-    font-size: 0.9rem;
-  }
-
-  .blog__extra-details span i {
-    font-size: 1rem;
-  }
-    
-.blog__content img {
-  width: 80%;
-  border-radius: 0.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.review__item img {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50px;
-  object-fit: cover;
-}
   
+  .Featured__blogs .title h5 {
+    font-size: 1.3rem;
+  }
 }
 
 @media only screen and (max-width: 576px) {
-  .review__input {
-    font-size: 0.8rem;
+  .Featured__blogs {
+    padding: 1rem;
   }
-  .blog__content img {
-    width: 90%;
-    border-radius: 0.5rem;
-    margin-bottom: 2.5rem;
+  
+  .Featured__blogs .title h5 {
+    font-size: 1.2rem;
   }
 }

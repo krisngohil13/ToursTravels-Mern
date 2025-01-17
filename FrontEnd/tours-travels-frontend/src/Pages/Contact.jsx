@@ -49,7 +49,7 @@ const Contact = () => {
   };
 
   return (
-    <section>
+    <section className="contact__page">
       <Container>
         <Row>
           <Col sm={12} md={{ size: 6, offset: 3 }}>

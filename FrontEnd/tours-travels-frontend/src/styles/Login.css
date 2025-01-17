@@ -1,4 +1,14 @@
-.login__img {
+/* Auth Pages Common Styles */
+.auth__page .login__container {
+  margin-top: 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(17, 12, 46, 0.15);
+}
+
+.auth__page .login__img {
   width: 60%;
   display: flex;
   justify-content: center;
@@ -9,7 +19,7 @@
   animation-delay: 0.3s;
 }
 
-.login__img img {
+.auth__page .login__img img {
   width: 70%;
   object-fit: contain;
   border-radius: 15px;
@@ -20,7 +30,7 @@
   animation-delay: 0.5s;
 }
 
-.login__form {
+.auth__page .login__form {
   padding: 40px;
   background: linear-gradient(135deg, rgba(75, 0, 130, 0.97), rgba(138, 43, 226, 0.95));
   backdrop-filter: blur(10px);
@@ -33,16 +43,7 @@
   animation-delay: 0.5s;
 }
 
-.login__container {
-  margin-top: 2.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(17, 12, 46, 0.15);
-}
-
-.login__form .user {
+.auth__page .user {
   width: 80px;
   height: 80px;
   position: absolute;
@@ -54,7 +55,7 @@
   opacity: 0;
 }
 
-.login__form .user img {
+.auth__page .user img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -64,7 +65,7 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.login__form h2 {
+.auth__page .login__form h2 {
   color: #fff;
   text-align: center;
   margin-bottom: 2rem;
@@ -76,7 +77,12 @@
   animation-delay: 0.8s;
 }
 
-.login__form input {
+.auth__page .form__group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.auth__page .form__group input {
   width: 100%;
   padding: 0.8rem 1.5rem;
   border-radius: 10px;
@@ -89,24 +95,24 @@
   transition: all 0.3s ease;
 }
 
-.login__form input::placeholder {
+.auth__page .form__group input::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.login__form input:focus {
+.auth__page .form__group input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-.password__input {
+.auth__page .password__input {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.password__input i {
+.auth__page .password__input i {
   position: absolute;
   right: 15px;
   top: 50%;
@@ -122,23 +128,10 @@
   align-items: end;
   justify-content: center;
   transition: all 0.3s ease;
-}
-
-.password__input i:hover {
-  color: #fff;
-}
-
-/* Adjust input padding to accommodate the icon */
-.password__input input {
-  padding-right: 50px !important;
-}
-
-/* Remove the background from the icon since it's inside the input */
-.password__input i {
   background: none;
 }
 
-.auth__btn {
+.auth__page .auth__btn {
   width: 100%;
   padding: 0.8rem;
   border-radius: 10px;
@@ -149,189 +142,159 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 1rem;
+  margin-top: 2rem !important;
   backdrop-filter: blur(5px);
 }
 
-.auth__btn:hover {
+.auth__page .auth__btn:hover {
   background: rgba(255, 255, 255, 0.25) !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.login__form p {
-  color: #fff;
-  text-align: center;
-  margin-top: 1.5rem;
-  font-size: 1rem;
+/* Form Validation and Error Styles */
+.auth__page .login__form .error__message {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  position: absolute;
+  bottom: -20px;
+  left: 3px;
+  animation: fadeIn 0.2s ease;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  text-shadow: none;
 }
 
-.login__form p a {
-  color: #d8bfd8;
-  text-decoration: none;
-  margin-left: 5px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.login__form p a:hover {
-  color: #fff;
-}
-
-/* Animations */
-@keyframes slideInRight {
-  from {
-    transform: translateX(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    transform: translateX(50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes userIconPop {
-  0% {
-    transform: translate(-50%, 20px);
-    opacity: 0;
-  }
-  50% {
-    transform: translate(-50%, -45px);
-  }
-  75% {
-    transform: translate(-50%, -35px);
-  }
-  100% {
-    transform: translate(-50%, -40px);
-    opacity: 1;
-  }
+.auth__page .login__form .form__group input.error {
+  border-color: rgba(255, 107, 107, 0.5) !important;
+  background: rgba(255, 107, 107, 0.1) !important;
+  box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.1);
 }
 
 /* Alert Styles */
-.alert {
-  padding: 0.6rem 0.8rem;
-  border-radius: 6px;
-  margin-bottom: 0.8rem;
-  font-size: 0.8rem;
+.auth__page .login__form .alert {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
   animation: slideDown 0.3s ease forwards;
+  backdrop-filter: blur(5px);
+  text-align: left;
 }
 
-.alert-danger {
+.auth__page .login__form .alert-danger {
   background: rgba(255, 107, 107, 0.15);
   border: 1px solid rgba(255, 107, 107, 0.2);
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
 }
 
-.alert-success {
+.auth__page .login__form .alert-success {
   background: rgba(46, 213, 115, 0.15);
   border: 1px solid rgba(46, 213, 115, 0.2);
-  color: rgba(255, 255, 255, 0.9);
+  color: #fff;
 }
 
-/* Responsive Styles */
-@media only screen and (max-width: 992px) {
-  .login__form {
-    padding: 35px;
-  }
+/* Password Input Error State */
+.auth__page .login__form .password__input.error {
+  margin-bottom: 1.5rem;
 }
 
+.auth__page .login__form .password__input.error input {
+  border-color: rgba(255, 107, 107, 0.5);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+/* Error Animation */
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.auth__page .login__form .form__group.error input {
+  animation: errorShake 0.3s ease-in-out;
+}
+
+/* Loading Error State */
+.auth__page .login__form .auth__btn.error {
+  background: rgba(255, 107, 107, 0.2) !important;
+  border-color: rgba(255, 107, 107, 0.3) !important;
+}
+
+/* Error Icon Styles */
+.auth__page .login__form .error__icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 107, 107, 0.8);
+  font-size: 1.1rem;
+}
+
+/* Responsive Error Styles */
 @media only screen and (max-width: 768px) {
-  .login__img {
-    display: none;
+  .auth__page .login__form .error__message {
+    font-size: 0.8rem;
+    bottom: -18px;
   }
 
-  .login__form {
-    width: 70%;
-    margin: auto;
-    padding: 30px;
-    transform: none;
-    animation: fadeIn 0.5s ease forwards;
-  }
-
-  .login__container {
-    padding: 1.5rem;
+  .auth__page .login__form .alert {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.85rem;
+    margin-bottom: 1.2rem;
   }
 }
 
 @media only screen and (max-width: 576px) {
-  .login__form {
-    width: 100%;
-    padding: 25px;
-  }
-  
-  .login__container {
-    padding: 1rem;
+  .auth__page .login__form .error__message {
+    font-size: 0.75rem;
+    bottom: -16px;
   }
 
-  .login__form .user {
-    width: 60px;
-    height: 60px;
-    top: -30px;
+  .auth__page .login__form .alert {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
   }
-
-  .login__form h2 {
-    font-size: 1.8rem;
-    margin-top: 1.5rem;
-  }
-}
-
-/* Form Validation Styles */
-.form__group {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.error__message {
-  color: rgba(255, 107, 107, 0.8);
-  font-size: 0.85rem !important;
-  position: absolute;
-  bottom: -12px;
-  left: 3px;
-  animation: fadeIn 0.2s ease;
-  font-weight: 300;
-  letter-spacing: 0.1px;
-  opacity: 0.9;
-}
-
-input.error {
-  border-color: rgba(255, 107, 107, 0.3) !important;
-  background: rgba(255, 107, 107, 0.03) !important;
 }
 
 /* Loading State */
-.auth__btn.loading {
+.auth__page .auth__btn.loading {
   position: relative;
   cursor: not-allowed;
   opacity: 0.8;
 }
 
-.loading__spinner {
+.auth__page .loading__spinner {
   display: inline-block;
   animation: spin 1s linear infinite;
 }
 
-.loading__spinner i {
+.auth__page .loading__spinner i {
   font-size: 1.2rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
@@ -343,17 +306,32 @@ input.error {
   }
 }
 
-/* Improve focus states */
-
-/* Alert animations */
-.alert {
-  transform: translateY(-10px);
-  animation: slideDown 0.3s ease forwards;
+/* Responsive adjustments for validation */
+@media only screen and (max-width: 576px) {
+  .auth__page .error__message {
+    font-size: 0.8rem;
+    bottom: -18px;
+  }
+  
+  .auth__page .alert {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
 }
 
-@keyframes slideDown {
-  to {
-    transform: translateY(0);
+/* Responsive adjustments for button */
+@media only screen and (max-width: 768px) {
+  .auth__page .login__form .auth__btn {
+    margin-top: 1.8rem !important;
+    padding: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .auth__page .login__form .auth__btn {
+    margin-top: 1.5rem !important;
+    padding: 0.6rem;
+    font-size: 1rem;
   }
 }
 
