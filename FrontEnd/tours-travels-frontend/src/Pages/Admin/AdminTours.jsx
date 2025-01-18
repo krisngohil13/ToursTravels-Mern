@@ -3,11 +3,19 @@ import { Container, Row, Col, Card, Button, Table } from 'reactstrap';
 import { AuthContext } from '../../context/AuthContext';
 import useFetch from '../../hooks/useFetch';
 import './AdminTours.css';
+import { useNavigate } from 'react-router-dom';
 
 const AdminTours = () => {
   const { isAdmin } = useContext(AuthContext);
   const { data: tours, loading, error } = useFetch('tours');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (!isAdmin) {
+      navigate('/login');
+    }
+  }, [isAdmin, navigate]);
 
   if (loading) return (
     <div className="loading-state">
