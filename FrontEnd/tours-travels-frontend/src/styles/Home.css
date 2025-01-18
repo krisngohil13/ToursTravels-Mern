@@ -828,7 +828,7 @@
   font-size: 3rem;
   margin: 1rem 0;
   background: linear-gradient(45deg, #8000ff, #a64dff);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
   line-height: 1.2;
@@ -883,7 +883,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   background: linear-gradient(45deg, #8000ff, #a64dff);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 1rem;
   display: block;

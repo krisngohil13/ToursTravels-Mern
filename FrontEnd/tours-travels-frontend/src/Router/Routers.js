@@ -1,5 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from '../Components/ProtectedRoute/ProtectedRoute';
+
 import Home from '../Pages/Home';
 import Tours from '../Pages/Tours';
 import TourDetails from '../Pages/TourDetails';
@@ -16,6 +18,8 @@ import Blogs from '../Pages/Blogs';
 import Booked from '../Pages/Booked';
 import BlogDetails from '../Pages/BlogDetails';
 import ScrollToTop from '../utils/scrolltoTop';
+import AdminDashboard from '../Pages/Admin/AdminDashboard';
+import AdminTours from '../Pages/Admin/AdminTours';
 
 const Router = () => {
   return (
@@ -36,6 +40,22 @@ const Router = () => {
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/blogs/:id" element={<BlogDetails />} />
       <Route path='/booked' element={<Booked/>}/>
+      <Route 
+        path="/admin/dashboard" 
+        element={
+          <ProtectedRoute>
+            <AdminDashboard />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/tours" 
+        element={
+          <ProtectedRoute>
+            <AdminTours />
+          </ProtectedRoute>
+        } 
+      />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes></>

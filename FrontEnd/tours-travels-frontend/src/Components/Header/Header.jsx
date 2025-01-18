@@ -13,40 +13,43 @@ const nav__links = [
   { path: "/booked", display: "Booked" },
 ];
 
+const admin__nav__links = [
+  ...nav__links,
+  { path: "/admin/dashboard", display: "Dashboard" }
+];
+
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const headerRef = useRef(null);
   const { user, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const navigationLinks = user?.role === 'admin' ? admin__nav__links : nav__links;
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
     navigate("/");
   };
 
-  const stickyHeaderFunc = () => {
-    window.addEventListener("scroll", () => {
-      if (headerRef.current) {
-        if (
-          document.body.scrollTop > 80 ||
-          document.documentElement.scrollTop > 80
-        ) {
-          headerRef.current.classList.add("sticky__header");
-        } else {
-          headerRef.current.classList.remove("sticky__header");
-        }
-      }
-    });
-  };
-
   useEffect(() => {
-    stickyHeaderFunc();
-    return () => window.removeEventListener("scroll", stickyHeaderFunc);
+    const handleScroll = () => {
+      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+        headerRef.current?.classList.add('sticky__header');
+        setIsExpanded(true);
+      } else {
+        headerRef.current?.classList.remove('sticky__header');
+        setIsExpanded(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <>
-      <header className="header" ref={headerRef}>
+      <header className={`header ${isExpanded ? 'expanded' : ''}`} ref={headerRef}>
         <Container>
           <Row>
             <div className="nav__wrapper d-flex align-items-center justify-content-between">
@@ -62,7 +65,7 @@ const Header = () => {
               {/* Desktop Navigation */}
               <div className="navigation d-none d-lg-block">
                 <ul className="menu d-flex align-items-center gap-5">
-                  {nav__links.map((item, index) => (
+                  {navigationLinks.map((item, index) => (
                     <li className="nav__item" key={index}>
                       <NavLink
                         to={item.path}
@@ -118,7 +121,7 @@ const Header = () => {
       <MobileSidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
-        navLinks={nav__links}
+        navLinks={navigationLinks}
         user={user}
         onLogout={logout}
         onNavigate={navigate}

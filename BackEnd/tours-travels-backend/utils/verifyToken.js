@@ -44,19 +44,23 @@ const verifyUser = (req, res, next) => {
     });
 };
 
+// Add this new middleware for admin verification
 const verifyAdmin = (req, res, next) => {
     verifyToken(req, res, (err) => {
-      if (err) {
-        return res.status(403).json({ message: 'Failed to authenticate token' });
-      }
-  
-      // Check if the user's role is 'admin'
-      if (req.user && req.user.role === 'admin') {
-        return next(); // Proceed to the next middleware/route handler
-      } else {
-        return res.status(403).json({ message: 'Access denied' });
-      }
+        if (err) {
+            return res.status(403).json({ message: 'Failed to authenticate token' });
+        }
+
+        // Check if the user exists and has admin role
+        if (req.user && req.user.role === 'admin') {
+            next();
+        } else {
+            return res.status(403).json({ 
+                success: false,
+                message: 'Admin access required'
+            });
+        }
     });
-  };
-  
+};
+
 module.exports = { verifyToken, verifyUser, verifyAdmin };

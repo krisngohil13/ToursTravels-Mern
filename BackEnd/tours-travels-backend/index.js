@@ -12,6 +12,7 @@ const bookingRoute = require('./router/booking.js');
 const contactRoute = require('./router/contact.js');
 const blogRoute = require('./router/blog.js');
 const commentRoute = require('./router/comment.js');
+const adminRoute = require('./router/admin.js');
 
 dotenv.config();
 
@@ -52,6 +53,7 @@ app.use("/api/v1/booking", bookingRoute);
 app.use("/api/v1/contact", contactRoute);
 app.use("/api/v1/blogs", blogRoute);
 app.use("/api/v1/comment", commentRoute);
+app.use("/api/v1/admin", adminRoute);
 
 app.get('//api/v1', (req, res) => res.send('Hello, Node.js!'));
 

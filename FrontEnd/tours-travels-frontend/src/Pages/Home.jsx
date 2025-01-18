@@ -3,7 +3,7 @@ import "../styles/Home.css"
 import {Container,Row, Col} from 'reactstrap'
 import heroImg from "../assets/images/hero-img1.jpg"
 import heroImg2 from "../assets/images/hero-image2.jpg"
-import heroVideo from "../assets/images/hero-video1.mp4"
+import heroVideo from "../assets/images/hero-video.mp4"
 import Subtitle from '../Shared/Subtitle'
 import worldImg from "../assets/images/world.png"
 import experienceImage from "../assets/images/experience.png"
@@ -27,7 +27,7 @@ const Home = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 9000);
 
     return () => clearInterval(timer);
   }, [slides.length]);
