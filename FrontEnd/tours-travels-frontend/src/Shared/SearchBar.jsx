@@ -1,9 +1,9 @@
 import React, { useRef } from "react";
 import "./searchbar.css";
 import { Col, Form, FormGroup } from "reactstrap";
-import axios from "axios";
-import { BASE_URL } from "../utils/config";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/config";
+import axios from "axios";
 
 const SearchBar = () => {
   const locationRef = useRef("");
@@ -15,29 +15,47 @@ const SearchBar = () => {
     const location = locationRef.current.value;
     const distance = distanceRef.current.value;
     const maxGroupSize = maxGroupSizeRef.current.value;
-  
-    const searchParams = new URLSearchParams();
-    if (location) searchParams.append("city", location);
-    if (distance) searchParams.append("distance", distance);
-    if (maxGroupSize) searchParams.append("maxGroupSize", maxGroupSize);
-  
+
+    if (!location && !distance && !maxGroupSize) {
+      alert("Please fill at least one field");
+      return;
+    }
+
     try {
-      // Remove trailing slash from BASE_URL
+      const params = new URLSearchParams();
+      if (location) params.append("city", location);
+      if (distance) params.append("distance", distance);
+      if (maxGroupSize) params.append("maxGroupSize", maxGroupSize);
+
+      // Clean the base URL and use the correct search endpoint
       const cleanBaseUrl = BASE_URL.replace(/\/+$/, '');
-      const response = await axios.get(`${cleanBaseUrl}/search?${searchParams}`);
-  
-      navigate(`/search?${searchParams}`, { 
-        state: { searchResult: response.data.data } 
-      });
+      const response = await axios.get(`${cleanBaseUrl}/search?${params}`);
+
+      if (response.data.success) {
+        navigate('/search', { 
+          state: { 
+            searchResults: response.data.data,
+            searchQuery: {
+              city: location,
+              distance,
+              maxGroupSize
+            }
+          } 
+        });
+      }
     } catch (error) {
-      alert("Failed to fetch search results: " + error.message);
+      console.error("Search error:", error);
+      alert(error.response?.data?.message || "Something went wrong!");
     }
   };
 
   return (
     <Col lg="12">
       <div className="search__bar">
-        <Form className="d-flex align-items-center">
+        <Form className="d-flex align-items-center" onSubmit={(e) => {
+          e.preventDefault();
+          searchHandler();
+        }}>
           <FormGroup className="form__group">
             <h6>Location</h6>
             <div className="input-wrapper">
@@ -58,6 +76,7 @@ const SearchBar = () => {
                 type="number"
                 placeholder="Distance k/m"
                 ref={distanceRef}
+                min="0"
               />
             </div>
           </FormGroup>
@@ -70,11 +89,15 @@ const SearchBar = () => {
                 type="number" 
                 placeholder="0" 
                 ref={maxGroupSizeRef}
+                min="1"
               />
             </div>
           </FormGroup>
 
-          <button className="search__icon" onClick={searchHandler}>
+          <button 
+            className="search__icon" 
+            type="submit"
+          >
             <i className="ri-search-line" />
             <span>Search</span>
           </button>

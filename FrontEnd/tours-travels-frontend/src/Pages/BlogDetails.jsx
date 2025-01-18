@@ -26,13 +26,17 @@ const BlogDetails = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        // Ensure no trailing slashes before appending the endpoint
-        const url = `${BASE_URL.replace(/\/+$/, "")}/blogs/${id}`; // Correct the URL construction
+        const url = `${BASE_URL.replace(/\/+$/, "")}/blogs/${id}`;
         const response = await axios.get(url);
-        setBlog(response.data);
+        
+        if (response.data.success) {
+          setBlog(response.data.data);
+        } else {
+          throw new Error(response.data.message || "Failed to fetch blog");
+        }
         setLoading(false);
       } catch (error) {
-        setError("Error loading blog details.");
+        setError(error.message || "Error loading blog details.");
         setLoading(false);
       }
     };
@@ -44,7 +48,7 @@ const BlogDetails = () => {
     data: fetchedComments,
     loading: loadingComments,
     error: errorComments,
-  } = useFetch(`comment/${id}/`);
+  } = useFetch(`/comment/${id}`);
 
   useEffect(() => {
     if (fetchedComments) {
@@ -71,15 +75,32 @@ const BlogDetails = () => {
     };
 
     try {
-      const response = await axios.post(`${BASE_URL}/comment/${id}`, commentData);
+      const cleanBaseUrl = BASE_URL.replace(/\/+$/, '');
+      const response = await axios.post(
+        `${cleanBaseUrl}/comment/${id}`, 
+        commentData,
+        {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        }
+      );
 
-      setComments([...comments, response.data]);
-      commentMsgRef.current.value = "";
-      setCommentStatus("success");
-      setTimeout(() => {
-        window.location.reload();
-      }, 800);
+      if (response.status === 201) {
+        const newComment = response.data;
+        setComments(prevComments => [...prevComments, newComment]);
+        commentMsgRef.current.value = "";
+        setCommentStatus("success");
+        
+        // Add a slight delay before refresh to show success message
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // Increased to 1 second for better UX
+      } else {
+        throw new Error("Failed to add comment");
+      }
     } catch (error) {
+      console.error("Comment error:", error);
       setCommentStatus("error");
     }
   };
