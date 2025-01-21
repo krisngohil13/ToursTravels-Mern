@@ -40,6 +40,7 @@
 
 .tours-table-card {
   padding: 2rem;
+  margin-top: 2rem;
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -279,4 +280,38 @@
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
+}
+
+.add-tour-btn {
+  background: #28a745 !important;
+  border-color: #28a745 !important;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.edit-btn {
+  background: #ffc107 !important;
+  border-color: #ffc107 !important;
+  color: #000 !important;
+  box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);
+}
+
+.delete-btn {
+  background: #dc3545 !important;
+  border-color: #dc3545 !important;
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+}
+
+.add-tour-btn:hover {
+  background: #218838 !important;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.edit-btn:hover {
+  background: #e0a800 !important;
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+.delete-btn:hover {
+  background: #c82333 !important;
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 } 

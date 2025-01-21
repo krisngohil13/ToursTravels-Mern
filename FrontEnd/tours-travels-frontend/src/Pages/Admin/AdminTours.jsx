@@ -4,6 +4,8 @@ import { AuthContext } from '../../context/AuthContext';
 import useFetch from '../../hooks/useFetch';
 import './AdminTours.css';
 import { useNavigate } from 'react-router-dom';
+import AddTourModal from './AddTourModal';
+import CommonSection from '../../Shared/CommonSection';
 
 const AdminTours = () => {
   const { isAdmin } = useContext(AuthContext);
@@ -30,19 +32,10 @@ const AdminTours = () => {
   );
 
   return (
+    
     <section className="admin-tours">
+      <CommonSection title={"Tours Management"} />
       <Container>
-        <Row>
-          <Col lg="12">
-            <div className="tours-header">
-              <h2>Tours Management</h2>
-              <Button color="primary" onClick={() => setIsAddModalOpen(true)}>
-                Add New Tour
-              </Button>
-            </div>
-          </Col>
-        </Row>
-
         <Row>
           <Col lg="12">
             <Card className="tours-table-card">
@@ -70,11 +63,19 @@ const AdminTours = () => {
                       <td>${tour.price}</td>
                       <td>{tour.featured ? 'Yes' : 'No'}</td>
                       <td>
-                        <Button color="info" size="sm" className="me-2">
-                          Edit
+                        <Button 
+                          color="warning" 
+                          size="sm" 
+                          className="me-2 edit-btn"
+                        >
+                          <i className="ri-edit-line"></i> Edit
                         </Button>
-                        <Button color="danger" size="sm">
-                          Delete
+                        <Button 
+                          color="danger" 
+                          size="sm"
+                          className="delete-btn"
+                        >
+                          <i className="ri-delete-bin-line"></i> Delete
                         </Button>
                       </td>
                     </tr>
@@ -85,6 +86,8 @@ const AdminTours = () => {
           </Col>
         </Row>
       </Container>
+
+      {isAddModalOpen && <AddTourModal onClose={() => setIsAddModalOpen(false)} />}
     </section>
   );
 };

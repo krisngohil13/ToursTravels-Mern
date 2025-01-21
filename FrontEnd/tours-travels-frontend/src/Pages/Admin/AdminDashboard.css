@@ -74,22 +74,18 @@
 
 /* Stats Card */
 .admin-stat-card {
-  @extend .tour-theme-card;
-  @extend .tour-theme-hover;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(125, 89, 252, 0.15);
+  border-radius: 1.2rem;
+  box-shadow: 0 5px 15px rgba(125, 89, 252, 0.08);
+  transition: all 0.3s ease;
   padding: 1.8rem;
   position: relative;
   overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   height: 220px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 
-    0 5px 15px rgba(125, 89, 252, 0.08),
-    0 15px 35px rgba(125, 89, 252, 0.05);
-  transform-style: preserve-3d;
-  transform: translateZ(30px);
-  backdrop-filter: blur(10px);
 }
 
 .admin-stat-card::before {
@@ -145,7 +141,10 @@
 }
 
 .admin-stat-value {
-  @extend .tour-theme-text-gradient;
+  background: linear-gradient(45deg, #7d59fc, #4a28e6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-size: 2rem;
   font-weight: 700;
   display: flex;
@@ -227,11 +226,8 @@
 
 /* Enhanced Hover Effects */
 .admin-stat-card:hover {
-  transform: translateY(-15px) translateZ(50px) rotateX(10deg);
-  box-shadow: 
-    0 25px 50px rgba(125, 89, 252, 0.2),
-    0 15px 30px rgba(125, 89, 252, 0.15);
-  border-color: rgba(125, 89, 252, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(125, 89, 252, 0.12);
 }
 
 .admin-manage-card:hover {

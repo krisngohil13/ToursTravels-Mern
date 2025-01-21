@@ -3,9 +3,11 @@ import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 const ProtectedRoute = ({ children }) => {
+  // Check token in sessionStorage
+  const token = sessionStorage.getItem("token");
   const { user } = useContext(AuthContext);
 
-  if (!user || user.role !== 'admin') {
+  if (!token || !user || user.role !== 'admin') {
     return <Navigate to="/login" replace />;
   }
 

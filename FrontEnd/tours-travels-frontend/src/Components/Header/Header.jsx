@@ -28,6 +28,7 @@ const Header = () => {
   const navigationLinks = user?.role === 'admin' ? admin__nav__links : nav__links;
 
   const logout = () => {
+    sessionStorage.removeItem("token");
     dispatch({ type: "LOGOUT" });
     navigate("/");
   };

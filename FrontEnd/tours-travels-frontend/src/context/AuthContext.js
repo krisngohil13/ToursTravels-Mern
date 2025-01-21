@@ -1,10 +1,33 @@
 import { createContext, useEffect, useReducer } from "react";
 
+const getStoredUser = () => {
+  try {
+    const storedUser = sessionStorage.getItem("user");
+    if (!storedUser || storedUser === "undefined") {
+      return null;
+    }
+    const userData = JSON.parse(storedUser);
+    
+    // Verify minimum required data using 'id' instead of '_id'
+    if (!userData.token || !userData.id || !userData.email) {
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("token");
+      return null;
+    }
+    return userData;
+  } catch (error) {
+    console.error("Error parsing stored user:", error);
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("token");
+    return null;
+  }
+};
+
 const initial_state = {
-  user: localStorage.getItem("user") !== null ? JSON.parse(localStorage.getItem("user")) : null,
+  user: getStoredUser(),
   loading: false,
   error: null,
-  isAdmin: localStorage.getItem("user") !== null ? JSON.parse(localStorage.getItem("user"))?.role === 'admin' : false
+  isAdmin: getStoredUser()?.role === 'admin'
 };
 
 export const AuthContext = createContext(initial_state);
@@ -19,12 +42,30 @@ const AuthReducer = (state, action) => {
         isAdmin: false
       };
     case "LOGIN_SUCCESS":
-      return {
-        user: action.payload,
-        loading: false,
-        error: null,
-        isAdmin: action.payload?.role === 'admin'
-      };
+      try {
+        if (!action.payload || !action.payload.token || !action.payload.id) {
+          throw new Error("Invalid or incomplete user data");
+        }
+        const userData = {
+          ...action.payload,
+          tokenExpiration: new Date().getTime() + 5 * 60 * 60 * 1000
+        };
+        sessionStorage.setItem("user", JSON.stringify(userData));
+        sessionStorage.setItem("token", userData.token);
+        return {
+          user: userData,
+          loading: false,
+          error: null,
+          isAdmin: userData.role === 'admin'
+        };
+      } catch (error) {
+        console.error("Error in LOGIN_SUCCESS:", error);
+        return {
+          ...state,
+          error: error.message,
+          loading: false
+        };
+      }
     case "LOGIN_FAILURE":
       return {
         user: null,
@@ -33,7 +74,8 @@ const AuthReducer = (state, action) => {
         isAdmin: false
       };
     case "LOGOUT":
-      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
+      sessionStorage.removeItem("token");
       return {
         user: null,
         loading: false,
@@ -56,16 +98,15 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initial_state);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = getStoredUser();
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      const expirationTime = parsedUser.tokenExpiration;
+      const expirationTime = storedUser.tokenExpiration;
       const currentTime = new Date().getTime();
       
       if (expirationTime && currentTime > expirationTime) {
         dispatch({ type: "LOGOUT" });
       } else {
-        dispatch({ type: "LOGIN_SUCCESS", payload: parsedUser });
+        dispatch({ type: "LOGIN_SUCCESS", payload: storedUser });
       }
     }
   }, []);
@@ -74,9 +115,13 @@ export const AuthContextProvider = ({ children }) => {
     if (state.user) {
       const userWithExpiration = {
         ...state.user,
-        tokenExpiration: new Date().getTime() + 5 * 60 * 60 * 1000,
+        tokenExpiration: new Date().getTime() + 5 * 60 * 60 * 1000, // 5 hours
       };
-      localStorage.setItem("user", JSON.stringify(userWithExpiration));
+      try {
+        sessionStorage.setItem("user", JSON.stringify(userWithExpiration));
+      } catch (error) {
+        console.error("Error updating user data:", error);
+      }
     }
   }, [state.user]);
 

@@ -12,8 +12,8 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
   const { user } = useContext(AuthContext);
 
   const [booking, setBooking] = useState({
-    userId: user ? user.id : "", // Use user.id instead of user._id
-    userEmail: user ? user.email : "", // Ensure email is available
+    userId: user?.id || user?._id, // Handle both id formats
+    userEmail: user?.email,
     tourName: title,
     fullName: "",
     phone: "",
@@ -34,6 +34,14 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
   const handleClick = async (e) => {
     e.preventDefault();
 
+    // Get token from sessionStorage instead of localStorage
+    const token = sessionStorage.getItem("token");
+    
+    if (!token) {
+      setIsLoginAlertVisible(true);
+      return;
+    }
+  
     if (!user || !user.id) {
       setIsLoginAlertVisible(true);
       setError("User is not logged in or _id is missing.");
@@ -42,14 +50,14 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
   
 
     const bookingData = {
-      userId: user.id,  // Use _id instead of username
-      username: user.username,  // Include username from the context
-      userEmail: user.email,  // User email
-      tourName: title,  // Tour name
-      fullName: booking.fullName,  // Full name of the person booking
-      groupSize: booking.groupSize,  // Group size
-      phone: booking.phone,  // Phone number
-      bookAt: booking.bookAt,  // Booking date
+      userId: user?.id || user?._id,
+      username: user?.username,
+      userEmail: user?.email,
+      tourName: title,
+      fullName: booking.fullName,
+      groupSize: booking.groupSize,
+      phone: booking.phone,
+      bookAt: booking.bookAt,
     };
   
     console.log("Booking Data to be Sent:", bookingData);
@@ -63,14 +71,14 @@ const Booking = ({ tour, avgRating, totalRating, reviews }) => {
       },
       credentials: "include",
       body: JSON.stringify({
-        userId: user.id,  // Use _id instead of username
-        username: user.username,  // Include username from the context
-        userEmail: user.email,  // User email
-        tourName: title,  // Tour name
-        fullName: booking.fullName,  // Full name of the person booking
-        groupSize: booking.groupSize,  // Group size
-        phone: booking.phone,  // Phone number
-        bookAt: booking.bookAt,  // Booking date
+        userId: user?.id || user?._id,
+        username: user?.username,
+        userEmail: user?.email,
+        tourName: title,
+        fullName: booking.fullName,
+        groupSize: booking.groupSize,
+        phone: booking.phone,
+        bookAt: booking.bookAt,
       }),
     });
     

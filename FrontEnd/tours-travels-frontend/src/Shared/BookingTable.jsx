@@ -1,89 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { BASE_URL } from '../utils/config';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaTrash } from "react-icons/fa";
+import useFetch from '../hooks/useFetch';
+import useFetchDelete from '../hooks/useFetchDelete';
 import './booking-table.css';
 
-const BookingTable = ({ bookings = [] }) => {
-  const [localBookings, setLocalBookings] = useState(bookings);
+const BookingTable = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user")) || {};
-  const isAdmin = user?.role === "admin";
+  const { data: bookings, loading, error } = useFetch('booking');
+  const { deleteData, loading: deleteLoading } = useFetchDelete();
+  const [deleteError, setDeleteError] = useState(null);
 
-  useEffect(() => {
-    setLocalBookings(bookings || []);
-  }, [bookings]);
-
-  const handleDelete = async (_id) => {
+  const handleDelete = async (bookingId) => {
     try {
-      const cleanedBaseUrl = BASE_URL.replace(/\/+$/, "");
-      const response = await axios.delete(`${cleanedBaseUrl}/booking/${_id}`);
-      
-      if (response.data.success) {
-        setLocalBookings(localBookings.filter(booking => booking._id !== _id));
+      const token = sessionStorage.getItem("token");
+      if (!token) {
+        navigate('/login');
+        return;
       }
-    } catch (error) {
-      console.error('Error deleting booking:', error);
+
+      await deleteData(`booking/${bookingId}`);
+      // Refresh the page to show updated bookings
+      window.location.reload();
+    } catch (err) {
+      setDeleteError(err.message);
     }
   };
 
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  if (loading) {
+    return (
+      <div className="loading-state">
+        <div className="spinner"></div>
+        <p>Loading bookings...</p>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  if (error) {
+    return (
+      <div className="error-state">
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
 
-  const filteredBookings = isAdmin
-    ? localBookings
-    : localBookings.filter(booking => booking.userId === user.id);
+  if (!bookings || bookings.length === 0) {
+    return (
+      <div className="empty-state">
+        <p>No bookings found</p>
+      </div>
+    );
+  }
 
   return (
     <div className="booking-table__wrapper">
+      {deleteError && (
+        <div className="error-message">
+          {deleteError}
+        </div>
+      )}
       <table className="booking-table">
         <thead>
           <tr>
-            <th>Username</th>
-            <th>Full Name</th>
             <th>Tour</th>
+            <th>User</th>
+            <th>Full Name</th>
+            <th>Date</th>
             <th>Group Size</th>
-            <th>Phone</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {filteredBookings.map(({ _id, username, fullName, userEmail, tourName, groupSize, phone }) => (
-            <tr key={_id} onClick={handleScrollToTop}>
+          {bookings.map((booking) => (
+            <tr key={booking._id}>
+              <td>{booking.tourName}</td>
+              <td className="email">{booking.userEmail}</td>
+              <td>{booking.fullName}</td>
+              <td>{new Date(booking.bookAt).toLocaleDateString()}</td>
+              <td>{booking.groupSize}</td>
               <td>
-                <span className="username">{username}</span>
-              </td>
-              <td>
-                <div className="user-info">
-                  <p className="full-name">{fullName}</p>
-                  <p className="email">{userEmail}</p>
-                </div>
-              </td>
-              <td>
-                <span className="tour-badge">{tourName}</span>
-              </td>
-              <td>
-                <span className="group-size">{groupSize}</span>
-              </td>
-              <td>
-                <span className="phone">{phone}</span>
+                <span className={`status-badge ${booking.status?.toLowerCase()}`}>
+                  {booking.status || 'Pending'}
+                </span>
               </td>
               <td>
                 <button
                   className="delete-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(_id);
-                    setTimeout(() => navigate("/"), 1000);
-                  }}
+                  onClick={() => handleDelete(booking._id)}
+                  disabled={deleteLoading}
                 >
-                  <FaTrash />
+                  {deleteLoading ? 'Deleting...' : 'Delete'}
                 </button>
               </td>
             </tr>

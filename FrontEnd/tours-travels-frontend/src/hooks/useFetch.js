@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import { BASE_URL } from "../utils/config";
 
-const useFetch = (endpoint, queryParams = {}) => {
+const useFetch = (endpoint) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  // Use a ref to track if the component is still mounted
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -16,25 +13,36 @@ const useFetch = (endpoint, queryParams = {}) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Ensure no trailing or extra slashes in the constructed URL
-        const url = `${BASE_URL.replace(/\/+$/, "")}/${endpoint.replace(/^\/+/, "")}`;
-        const user = JSON.parse(localStorage.getItem("user"));
-        const token = user?.token;
-
-        const response = await axios.get(url, {
-          params: queryParams,
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        // Remove extra BASE_URL concatenation
+        const url = `${BASE_URL}${endpoint}`.replace(/([^:]\/)\/+/g, "$1"); // Clean up any double slashes
+        
+        const token = sessionStorage.getItem("token");
+        const headers = {
+          "Content-Type": "application/json",
+        };
+        
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+        
+        const response = await fetch(url, {
+          headers,
+          credentials: "include",
         });
 
-        // Only set state if the component is still mounted
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message);
+        }
+
         if (isMounted.current) {
-          // If the API returns a nested 'data' key, adjust accordingly.
-          setData(response.data.data || response.data); // Use response.data directly or response.data.data based on the API response structure.
+          setData(result.data || result);
         }
       } catch (err) {
         console.error("Error in useFetch:", err);
         if (isMounted.current) {
-          setError(err.response?.data?.message || "An error occurred");
+          setError(err.message);
         }
       } finally {
         if (isMounted.current) {
@@ -45,11 +53,10 @@ const useFetch = (endpoint, queryParams = {}) => {
 
     fetchData();
 
-    // Cleanup function to prevent state updates if unmounted
     return () => {
       isMounted.current = false;
     };
-  }, [endpoint, JSON.stringify(queryParams)]); // Include dependencies safely
+  }, [endpoint]);
 
   return { data, error, loading };
 };

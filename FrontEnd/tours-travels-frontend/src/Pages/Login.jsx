@@ -73,31 +73,45 @@ const Login = () => {
     dispatch({ type: "LOGIN_START" });
 
     try {
-      const url = `${BASE_URL.replace(/\/$/, "")}/auth/login`;
-
-      const res = await fetch(url, {
-        method: "POST",
+      const res = await fetch(`${BASE_URL}auth/login`, {
+        method: "post",
         headers: {
-          "Content-Type": "application/json",
+          "content-type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify(credentials),
       });
 
       const result = await res.json();
+      console.log("Server Response:", result);
 
       if (!res.ok) {
-        setError(result.message);
-        dispatch({ type: "LOGIN_FAILURE", payload: result.message });
-      } else {
-        dispatch({ type: "LOGIN_SUCCESS", payload: result });
-        setSuccess("Login successful!");
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        throw new Error(result.message || 'Login failed');
       }
+
+      // The result is already the user data with token
+      const userData = {
+        ...result,  // Use the entire result as it already has the correct structure
+        tokenExpiration: new Date().getTime() + 5 * 60 * 60 * 1000
+      };
+
+      // Verify we have the minimum required data
+      if (!userData.token || !userData.id || !userData.email) {
+        console.error("Missing required user data:", userData);
+        throw new Error('Incomplete user data received');
+      }
+
+      dispatch({ type: "LOGIN_SUCCESS", payload: userData });
+      sessionStorage.setItem("token", userData.token);
+      sessionStorage.setItem("user", JSON.stringify(userData));
+      
+      setSuccess("Login successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (err) {
-      setError("An error occurred while logging in. Please try again later.");
+      console.error("Login error:", err);
+      setError(err.message || "An error occurred while logging in");
       dispatch({ type: "LOGIN_FAILURE", payload: err.message });
     } finally {
       setIsLoading(false);
