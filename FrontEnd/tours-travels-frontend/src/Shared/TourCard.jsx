@@ -6,6 +6,7 @@ import calculateAvgRating from "../utils/avgRating";
 import { useEffect } from "react";
 
 const TourCard = ({ tour }) => {
+  console.log(tour);
   const { _id, title, city, photo, price, reviews } = tour;
 
   const { totalRating, avgRating } = calculateAvgRating(reviews);
@@ -47,7 +48,6 @@ const TourCard = ({ tour }) => {
               )}
             </span>
           </div>
-
           <h5 className="tour__title">
             <Link to={`/tours/${_id}`}>
               <div onClick={handleScrollToTop}>{title}</div>

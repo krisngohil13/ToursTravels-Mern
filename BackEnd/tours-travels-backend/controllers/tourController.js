@@ -3,64 +3,74 @@ const Tour = require("../models/Tour.js");
 // Create new tour
 const createTour = async (req, res) => {
   try {
-    const newTour = new Tour(req.body); // Simplified initialization using req.body
+    const newTour = new Tour({
+      ...req.body,
+      reviews: [] // Initialize empty reviews array
+    });
+
     const savedTour = await newTour.save();
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: "Successfully created",
-      data: savedTour,
+      data: savedTour
     });
   } catch (err) {
-    console.error("Error creating tour:", err);
-    res.status(500).json({ success: false, message: "Failed to create tour" });
+    console.error("Error creating tour:", err); // Add this for debugging
+    res.status(500).json({
+      success: false,
+      message: err.message || "Failed to create. Please try again"
+    });
   }
 };
 
 // Update tour
 const updateTour = async (req, res) => {
-  const { id } = req.params;
-
+  const id = req.params.id;
+  
   try {
     const updatedTour = await Tour.findByIdAndUpdate(
-      id,
-      { $set: req.body }, // Directly use req.body
-      { new: true, runValidators: true } // runValidators ensures validation is applied during updates
+      id, 
+      { $set: req.body }, 
+      { new: true }
     );
-
-    if (!updatedTour) {
-      return res.status(404).json({ success: false, message: "Tour not found" });
-    }
 
     res.status(200).json({
       success: true,
-      message: "Tour updated successfully",
-      data: updatedTour,
+      message: "Successfully updated",
+      data: updatedTour
     });
   } catch (err) {
-    console.error("Error updating tour:", err);
-    res.status(500).json({ success: false, message: "Failed to update tour" });
+    res.status(500).json({
+      success: false,
+      message: err.message || "Failed to update"
+    });
   }
 };
 
 // Delete tour
 const deleteTour = async (req, res) => {
-  const { id } = req.params;
-
+  const id = req.params.id;
+  
   try {
     const deletedTour = await Tour.findByIdAndDelete(id);
-
+    
     if (!deletedTour) {
-      return res.status(404).json({ success: false, message: "Tour not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Tour not found"
+      });
     }
 
     res.status(200).json({
       success: true,
-      message: "Tour deleted successfully",
+      message: "Tour deleted successfully"
     });
   } catch (err) {
-    console.error("Error deleting tour:", err);
-    res.status(500).json({ success: false, message: "Failed to delete tour" });
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete tour"
+    });
   }
 };
 

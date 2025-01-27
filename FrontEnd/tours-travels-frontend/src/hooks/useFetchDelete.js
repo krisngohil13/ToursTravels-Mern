@@ -1,33 +1,38 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { BASE_URL } from "../utils/config";
+import { AuthContext } from "../context/AuthContext";
 
 const useFetchDelete = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(AuthContext);
 
-  const deleteData = async (endpoint) => {
+  const deleteData = async (url) => {
     setLoading(true);
     try {
-      const url = `${BASE_URL}${endpoint}`.replace(/([^:]\/)\/+/g, "$1");
-      const token = sessionStorage.getItem("token");
+      const cleanUrl = url.replace(/^\/+/, '').replace(/\/+/g, '/');
       const headers = {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       };
-      
+
+      const token = user?.token || localStorage.getItem("token");
+
       if (token) {
         headers.Authorization = `Bearer ${token}`;
+      } else {
+        throw new Error('Authentication token is missing');
       }
 
-      const response = await fetch(url, {
+      const response = await fetch(`${BASE_URL}${cleanUrl}`, {
         method: 'DELETE',
         headers,
-        credentials: "include"
+        credentials: 'include'
       });
 
       const result = await response.json();
-
+      
       if (!response.ok) {
-        throw new Error(result.message);
+        throw new Error(result.message || 'Something went wrong');
       }
 
       return result;
