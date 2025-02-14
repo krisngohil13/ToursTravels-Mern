@@ -11,7 +11,7 @@ userRoute.get("/", verifyAdmin, getAllUsers);
 
 userRoute.get("/:id", verifyUser, getUserById);
 
-userRoute.put("/:id", verifyUser, updateUser);
+userRoute.put("/:id", verifyAdmin, updateUser);
 
 userRoute.delete("/:id", verifyUser, deleteUser);
 

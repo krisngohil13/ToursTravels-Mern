@@ -54,19 +54,40 @@ const User = require("../models/User.js");
  const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
+        const { role } = req.body;
+
+        // Only allow role changes if the requester is an admin
+        if (role && req.user.role !== 'admin') {
+            return res.status(403).json({
+                success: false,
+                message: "Only admins can change user roles"
+            });
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             id,
-            { $set: req.body },
+            { role },
             { new: true }
         );
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
         res.status(200).json({
             success: true,
-            message: "User updated successfully",
-            data: updatedUser,
+            message: "User role updated successfully",
+            data: updatedUser
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ success: false, message: "Failed to update user" });
+        res.status(500).json({
+            success: false,
+            message: "Failed to update user"
+        });
     }
 };
 

@@ -20,6 +20,8 @@ import BlogDetails from '../Pages/BlogDetails';
 import ScrollToTop from '../utils/scrolltoTop';
 import AdminDashboard from '../Pages/Admin/AdminDashboard';
 import AdminTours from '../Pages/Admin/AdminTours';
+import AdminUsers from '../Pages/Admin/AdminUsers';
+import AdminRevenue from '../Pages/Admin/AdminRevenue';
 
 const Router = () => {
   return (
@@ -53,6 +55,22 @@ const Router = () => {
         element={
           <ProtectedRoute>
             <AdminTours />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/users" 
+        element={
+          <ProtectedRoute>
+            <AdminUsers />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/admin/revenue" 
+        element={
+          <ProtectedRoute>
+            <AdminRevenue />
           </ProtectedRoute>
         } 
       />
