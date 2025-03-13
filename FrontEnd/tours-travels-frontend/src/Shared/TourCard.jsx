@@ -1,70 +1,61 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
+import { Card } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Tourcard.css";
 import calculateAvgRating from "../utils/avgRating";
-import { useEffect } from "react";
 
 const TourCard = ({ tour }) => {
-  console.log(tour);
   const { _id, title, city, photo, price, reviews } = tour;
-
   const { totalRating, avgRating } = calculateAvgRating(reviews);
 
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+  // Function to truncate title if it's too long
+  const formatTitle = (title) => {
+    return title.length > 45 ? title.substring(0, 45) + '...' : title;
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0); 
-  }, []);
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="tour__card">
       <Card>
         <div className="tour__img">
-        <Link to={`/tours/${_id}`}>
-              <div onClick={handleScrollToTop}>
-              <img src={photo} alt="tour" />
-              </div>
-            </Link>
-          <span>Featured</span>
-        </div>
-        <CardBody>
-          <div className="card__top d-flex align-items-center justify-content-between">
-            <span className="tour__location d-flex align-items-center gap-1">
-              <i className="ri-map-pin-line">{city}</i>
-            </span>
-            <span className="tour__rating d-flex align-items-center gap-1">
-              <i className="ri-star-fill"></i>
-              {avgRating === 0 ? null : avgRating}
-              {totalRating === 0 ? (
-                <span>Not rated</span>
-              ) : (
-                <span>({reviews?.length})</span>
-              )}
-            </span>
-          </div>
-          <h5 className="tour__title">
-            <Link to={`/tours/${_id}`}>
-              <div onClick={handleScrollToTop}>{title}</div>
-            </Link>
-          </h5>
-          <div className="card__bottom d-flex align-items-center justify-content-between mt-3">
-            <h5>
-              ${price}
-              <span>/Per Person</span>
+          <img src={photo} alt={title} />
+          <span className="featured__tag">Featured</span>
+          <div className="card__overlay">
+            <div className="tour__meta">
+              <span className="tour__location">
+                <i className="ri-map-pin-line"></i>
+                {city}
+              </span>
+              <span className="tour__rating">
+                <i className="ri-star-fill"></i>
+                {avgRating === 0 ? "Not rated" : avgRating}
+                {totalRating !== 0 && <span>({reviews?.length})</span>}
+              </span>
+            </div>
+            <h5 className="tour__title">
+              <Link to={`/tours/${_id}`} onClick={handleScrollToTop}>
+                {formatTitle(title)}
+              </Link>
             </h5>
-            <button className="btn booking__btn">
-              <Link to={`/tours/${_id}`}>
-                <div onClick={handleScrollToTop}>Book Now</div>
-              </Link>{" "}
-            </button>
+            <div className="card__bottom">
+              <h5 className="tour__price">
+                ${price}
+                <span className="price__label">/Per Person</span>
+              </h5>
+              <Link 
+                to={`/tours/${_id}`} 
+                className="booking__btn"
+                onClick={handleScrollToTop}
+              >
+                Book Now
+                <i className="ri-arrow-right-line"></i>
+              </Link>
+            </div>
           </div>
-        </CardBody>
+        </div>
       </Card>
     </div>
   );

@@ -76,47 +76,49 @@ exports.getRecentBookings = async (req, res) => {
 // Get revenue statistics
 exports.getRevenueStats = async (req, res) => {
     try {
-        const revenueStats = await Booking.aggregate([
-            {
-                $lookup: {
-                    from: 'tours',
-                    localField: 'tourName',
-                    foreignField: 'title',
-                    as: 'tour'
-                }
-            },
-            {
-                $unwind: '$tour'
-            },
-            {
-                $group: {
-                    _id: {
-                        month: { $month: '$createdAt' },
-                        year: { $year: '$createdAt' }
-                    },
-                    revenue: {
-                        $sum: { $multiply: ['$tour.price', '$groupSize'] }
-                    },
-                    bookings: { $sum: 1 }
-                }
-            },
-            {
-                $sort: { '_id.year': -1, '_id.month': -1 }
-            },
-            {
-                $limit: 12
-            }
-        ]);
+        const today = new Date();
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+        // Get all bookings
+        const bookings = await Booking.find();
+        
+        // Calculate total revenue
+        const totalRevenue = bookings.reduce((acc, booking) => {
+            return acc + (booking.groupSize * 100); // Assuming $100 per person
+        }, 0);
+
+        // Calculate monthly revenue
+        const monthlyBookings = bookings.filter(booking => 
+            booking.createdAt >= firstDayOfMonth
+        );
+        const monthlyRevenue = monthlyBookings.reduce((acc, booking) => {
+            return acc + (booking.groupSize * 100);
+        }, 0);
+
+        // Calculate growth rate (comparing to previous month)
+        const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        const lastMonthBookings = bookings.filter(booking => 
+            booking.createdAt >= lastMonth && booking.createdAt < firstDayOfMonth
+        );
+        const lastMonthRevenue = lastMonthBookings.reduce((acc, booking) => {
+            return acc + (booking.groupSize * 100);
+        }, 0);
+
+        const growthRate = lastMonthRevenue === 0 ? 100 :
+            ((monthlyRevenue - lastMonthRevenue) / lastMonthRevenue) * 100;
 
         res.status(200).json({
             success: true,
-            revenueStats
+            data: {
+                totalRevenue,
+                monthlyRevenue,
+                growthRate: Math.round(growthRate * 100) / 100
+            }
         });
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: 'Failed to fetch revenue statistics',
-            error: error.message
+            message: "Failed to fetch revenue statistics"
         });
     }
 };
